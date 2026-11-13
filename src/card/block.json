@@ -1,0 +1,93 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lanyard/card",
+	"version": "2.2.0",
+	"title": "Lanyard",
+	"category": "widgets",
+	"icon": "id-alt",
+	"description": "A digital business card (photo, name, job title, Add to contacts button, contact rows and a QR code) that follows the theme's colours and fonts. Any field can show dynamic data from this post, another post, the site, a user or ACF.",
+	"keywords": [ "business", "card", "contact", "vcard", "staff" ],
+	"textdomain": "lanyard",
+	"usesContext": [ "postId", "postType" ],
+	"attributes": {
+		"name": { "type": "string", "default": "" },
+		"jobTitle": { "type": "string", "default": "" },
+		"company": { "type": "string", "default": "" },
+		"tagline": { "type": "string", "default": "" },
+		"phone": { "type": "string", "default": "" },
+		"mobile": { "type": "string", "default": "" },
+		"email": { "type": "string", "default": "" },
+		"website": { "type": "string", "default": "" },
+		"address": { "type": "string", "default": "" },
+		"linkedin": { "type": "string", "default": "" },
+		"avatarId": { "type": "integer", "default": 0 },
+		"avatarUrl": { "type": "string", "default": "" },
+		"avatarAlt": { "type": "string", "default": "" },
+		"avatarTag": { "type": "string", "default": "" },
+		"nameTag": { "type": "string", "enum": [ "h2", "h3", "h4", "p" ], "default": "p" },
+		"showAvatar": { "type": "boolean", "default": false },
+		"linkAddress": { "type": "boolean", "default": false },
+		"showQr": { "type": "boolean", "default": false },
+		"qrSource": { "type": "string", "enum": [ "vcard", "url" ], "default": "vcard" },
+		"qrCaption": { "type": "string", "default": "" },
+		"showVcard": { "type": "boolean", "default": false },
+		"vcardLabel": { "type": "string", "default": "" },
+		"schemaEnabled": { "type": "boolean", "default": true },
+		"schemaType": { "type": "string", "enum": [ "auto", "person", "organization" ], "default": "auto" },
+		"accentColor": { "type": "string" },
+		"customAccentColor": { "type": "string" },
+		"accentTextColor": { "type": "string" },
+		"customAccentTextColor": { "type": "string" },
+		"nameColor": { "type": "string" },
+		"customNameColor": { "type": "string" },
+		"metaColor": { "type": "string" },
+		"customMetaColor": { "type": "string" },
+		"nameFontFamily": { "type": "string", "default": "" },
+		"nameFontSize": { "type": "string", "default": "" },
+		"cardWidth": { "type": "string", "enum": [ "auto", "narrow", "medium", "wide", "full" ], "default": "auto" },
+		"previewPostType": { "type": "string", "default": "" },
+		"previewPostId": { "type": "integer", "default": 0 }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": [ "wide", "full" ],
+		"color": {
+			"text": true,
+			"background": true,
+			"link": true,
+			"gradients": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"shadow": true
+	},
+	"example": {
+		"attributes": {
+			"name": "Jane Doe",
+			"jobTitle": "Head of Product",
+			"company": "Example Company",
+			"phone": "+1 202 555 0143",
+			"email": "jane.doe@example.com"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

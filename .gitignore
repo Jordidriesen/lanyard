@@ -1,0 +1,29 @@
+# Dependencies (install with npm ci; never in OneDrive)
+node_modules/
+
+# Release packages are built, not versioned
+*.zip
+dist/
+
+# Secrets and local environment
+.env
+.env.*
+*.pem
+*.key
+wp-config.php
+*.sql
+*.sql.gz
+
+# Logs and caches
+*.log
+npm-debug.log*
+.eslintcache
+.cache/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp

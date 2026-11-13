@@ -1,0 +1,708 @@
+/*
+ * Front-end and editor styles (2.0.0): one look, Profile.
+ *
+ * A mobile "digital business card" with no card chrome: no border,
+ * hairline, padding, radius, shadow or background of its own, so it sits on
+ * the theme's background and uses the theme's text colour. A QR icon button
+ * over a full-width portrait that fades into the background, a centred
+ * heading, a wide "Add to contacts" button and left-aligned contact rows
+ * with outline icons. The QR code opens in a popover (Popover API, no
+ * script). Profile was new in 1.3.0; 2.0.0 removed the four other layouts
+ * (Stacked, Split, Two-tone panel, Centered with QR), which descended from
+ * Business Card Block 2.1.7 by bPlugins (GPLv3 or later), and their block
+ * styles. The rules apply to the block itself, so no is-style-* class is
+ * needed; render.php still adds lnyd--profile as a stable hook for themes.
+ *
+ * Theming: every colour comes from the block's --lnyd-* properties, then the
+ * theme's presets (var(--wp--preset--color--*)), then a neutral fallback.
+ * Fonts are inherited. Sizes are in em, relative to the card's own font
+ * size, so a theme that sets the root font size to 62.5% (1rem = 10px)
+ * does not shrink the card. Public properties a theme or skin may set:
+ *
+ *   --lnyd-accent, --lnyd-accent-contrast, --lnyd-name-color,
+ *   --lnyd-meta-color, --lnyd-name-font, --lnyd-name-size (block settings)
+ *   --lnyd-surface (QR button disc and QR overlay panel), --lnyd-text,
+ *   --lnyd-radius (QR overlay panel), --lnyd-max, --lnyd-name-weight,
+ *   --lnyd-icon-color, --lnyd-title-color, --lnyd-title-weight,
+ *   --lnyd-button-bg, --lnyd-button-color, --lnyd-button-gradient-end,
+ *   --lnyd-button-hover-bg, --lnyd-button-hover-color,
+ *   --lnyd-button-radius, --lnyd-button-weight, --lnyd-button-case,
+ *   --lnyd-button-size, --lnyd-focus
+ *
+ * Removed in 2.0.0 with the other layouts: --lnyd-border-color,
+ * --lnyd-padding, --lnyd-shadow, --lnyd-max-wide, --lnyd-avatar-radius,
+ * --lnyd-icon-bg, --lnyd-icon-radius, --lnyd-panel, --lnyd-panel-contrast,
+ * --lnyd-panel-meta, --lnyd-aside.
+ *
+ * Who wins (1.4.0), highest first:
+ *   1. Colours chosen in the block settings. The four card colours are
+ *      inline --lnyd-* properties (Renderer::style_vars()), which beat any
+ *      stylesheet value; when one is set, the derived properties a skin may
+ *      set (button, icon, job title) are reset inline to `initial` so they
+ *      derive from it. Core text and background colours are inline styles or
+ *      has-*-color classes with !important; a core link colour is core's
+ *      .wp-elements-* rule, which the contact link rule below steps aside for.
+ *   2. Skins and themes: --lnyd-* properties, best set inside :where() so
+ *      they stay at zero specificity (see site/primion/ for an example with
+ *      light and dark values).
+ *   3. The defaults here: the private --lnyd-_* tokens, all set inside
+ *      :where(), read the public properties first and fall back to theme
+ *      presets, then to neutral values.
+ * With a core text colour, `.has-text-color` drops a skin's meta colour, so
+ * company and tagline derive from the chosen text colour.
+ * Nothing is hard-coded light except the QR plate, which stays white for
+ * scanning.
+ *
+ * Fonts (1.4.1): the plugin never names a font family. The card inherits
+ * the theme's body font; the block's typography supports reach every part
+ * by inheritance, and the Name typography preset (--lnyd-name-font, inline)
+ * overrides the name. The QR and close <button>s and the links (contact
+ * rows, vCard) set font and letter-spacing back to inherit, because the UA
+ * stylesheet and themes such as ATLAS (html, button, a, input...) set them
+ * directly. The name keeps `inherit` also when it is an h2-h4 (docs/02,
+ * "Fonts"). The QR popover sits in the top layer but stays in the card's
+ * DOM, so it inherits the card font.
+ */
+
+:where(.wp-block-lanyard-card) {
+	// Tokens: block settings first, then theme presets, then neutral values.
+	// Without a primary or accent preset the accent is the contrast preset,
+	// with base text on it (1.4.0), which keeps its contrast when a theme
+	// swaps base and contrast for dark mode.
+	--lnyd-_accent: var(--lnyd-accent, var(--wp--preset--color--primary, var(--wp--preset--color--accent, var(--wp--preset--color--contrast, #1f2933))));
+	--lnyd-_on-accent: var(--lnyd-accent-contrast, var(--wp--preset--color--base, #fff));
+	--lnyd-_surface: var(--lnyd-surface, var(--wp--preset--color--base, #fff));
+	--lnyd-_ink: var(--lnyd-text, var(--wp--preset--color--contrast, #1f2933));
+	--lnyd-_name: var(--lnyd-name-color, currentcolor);
+	--lnyd-_meta: var(--lnyd-meta-color, color-mix(in srgb, currentcolor 78%, transparent));
+	--lnyd-_radius: var(--lnyd-radius, 1em);
+	--lnyd-_icon-color: var(--lnyd-icon-color, var(--lnyd-_accent));
+	--lnyd-_btn-bg: var(--lnyd-button-bg, var(--lnyd-_accent));
+	--lnyd-_btn-color: var(--lnyd-button-color, var(--lnyd-_on-accent));
+	--lnyd-_focus: var(--lnyd-focus, var(--lnyd-_ink));
+	--lnyd-_qr-size: 8.75em;
+	--lnyd-_max: var(--lnyd-max, 30em);
+	// Job title: --lnyd-title-color (the block's meta colour when chosen, see
+	// Renderer::style_vars()), else the accent. The gradient ends slightly
+	// darker than the button colour (1.4.0), so light text on it never loses
+	// contrast across the button.
+	--lnyd-_title: var(--lnyd-title-color, var(--lnyd-_accent));
+	--lnyd-_btn-end: var(--lnyd-button-gradient-end, color-mix(in srgb, var(--lnyd-_btn-bg) 90%, #000));
+}
+
+/*
+ * A core text colour beats a skin's meta colour: company and tagline then
+ * derive from the chosen text colour (unless the block's own meta colour is
+ * set: that one is inline and still wins). The second selector is the
+ * editor, where the preview's wrapper sits inside the block wrapper that
+ * carries the class.
+ */
+.wp-block-lanyard-card.has-text-color,
+.wp-block-lanyard-card.has-text-color .wp-block-lanyard-card {
+	--lnyd-meta-color: initial;
+}
+
+// No card chrome: no border, padding, radius, shadow or background is set
+// here (block supports chosen by an editor still apply, as inline styles).
+.wp-block-lanyard-card {
+	container: lnyd-card / inline-size;
+	box-sizing: border-box;
+	width: 100%;
+	min-width: min(100%, 17.5em);
+	margin-inline: auto;
+	// currentcolor on `color` is the inherited (theme) text colour.
+	color: var(--lnyd-text, currentcolor);
+	line-height: 1.5;
+	text-align: start;
+	overflow-wrap: anywhere;
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: inherit;
+	}
+
+	.lnyd__inner {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5em;
+	}
+
+	.lnyd__hero {
+		position: relative;
+	}
+
+	.lnyd__hero--no-photo {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	// Large portrait: full column width, natural ratio, height capped at
+	// 4:5 of the column (125cqi), soft fade into whatever is behind it.
+	// No border and no radius.
+	.lnyd__photo {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-height: 125cqi;
+		border: 0;
+		border-radius: 0;
+		object-fit: cover;
+		object-position: center top;
+		-webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+		mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+	}
+
+	// QR icon button. Hidden unless the Popover API is supported (see
+	// below); the editor preview renders an inert span instead. No border:
+	// a surface-coloured disc.
+	.lnyd__qr-toggle {
+		position: absolute;
+		inset-block-start: 0.5em;
+		inset-inline-end: 0.5em;
+		z-index: 1;
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 2.75em;
+		height: 2.75em;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		border-radius: 50%;
+		background: color-mix(in srgb, var(--lnyd-_surface) 85%, transparent);
+		color: var(--lnyd-_ink);
+		font: inherit; // UA button font
+		letter-spacing: inherit;
+		line-height: 0;
+		cursor: pointer;
+
+		svg {
+			display: block;
+			width: 1.5em;
+			height: 1.5em;
+		}
+
+		&:hover {
+			background: var(--lnyd-_surface);
+		}
+
+		&:focus {
+			outline: none;
+		}
+
+		&:focus-visible {
+			outline: 3px solid var(--lnyd-_focus);
+			outline-offset: 2px;
+		}
+
+		&.is-inert {
+			display: inline-flex;
+			cursor: default;
+			pointer-events: none;
+		}
+	}
+
+	.lnyd__hero--no-photo .lnyd__qr-toggle {
+		position: static;
+	}
+
+	.lnyd__heading {
+		display: grid;
+		justify-items: center;
+		gap: 0.5em;
+		width: 100%;
+		min-width: 0;
+		text-align: center;
+
+		> * {
+			margin: 0;
+		}
+	}
+
+	// The card font for every name tag (p, h2-h4); a theme heading rule
+	// (h2 { font-family }) does not reach it. The Name typography preset wins.
+	.lnyd__name {
+		font-family: var(--lnyd-name-font, inherit);
+		font-size: var(--lnyd-name-size, clamp(1.75em, 1.25em + 3cqi, 2.25em));
+		font-style: normal;
+		font-weight: var(--lnyd-name-weight, 700);
+		line-height: 1.15;
+		letter-spacing: inherit;
+		text-transform: none;
+		color: var(--lnyd-_name);
+	}
+
+	.lnyd__title {
+		font-size: 1.25em;
+		font-weight: var(--lnyd-title-weight, 400);
+		line-height: 1.35;
+		color: var(--lnyd-_title);
+	}
+
+	.lnyd__company {
+		font-size: 1em;
+		font-weight: 600;
+		line-height: 1.4;
+		color: var(--lnyd-_meta);
+	}
+
+	.lnyd__tagline {
+		font-size: 0.9375em;
+		font-style: normal;
+		line-height: 1.5;
+		color: var(--lnyd-_meta);
+	}
+
+	// "Add to contacts": a wide, single-line gradient button with a plus
+	// icon. Theme button rules (width, height, padding, decorations) are
+	// reset on purpose.
+	.lnyd__actions {
+		display: flex;
+		justify-content: center;
+		margin: 0;
+	}
+
+	a.lnyd__vcard {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5em;
+		width: 84%;
+		max-width: 100%;
+		height: auto;
+		min-height: 2.75em;
+		margin: 0;
+		padding: 0.625em 1.5em;
+		overflow: hidden;
+		border: 0;
+		border-radius: var(--lnyd-button-radius, 0.5em);
+		background-color: var(--lnyd-_btn-bg);
+		background-image: linear-gradient(135deg, var(--lnyd-_btn-bg), var(--lnyd-_btn-end));
+		box-shadow: none;
+		color: var(--lnyd-_btn-color);
+		font-family: inherit;
+		font-size: var(--lnyd-button-size, 1em);
+		font-style: normal;
+		font-weight: var(--lnyd-button-weight, 600);
+		line-height: 1.25;
+		letter-spacing: inherit;
+		text-align: center;
+		text-decoration: none;
+		text-overflow: ellipsis;
+		text-transform: var(--lnyd-button-case, none);
+		white-space: nowrap;
+		cursor: pointer;
+
+		// Plus icon, 20px at 16px: below 24px, so the 1.75 stroke.
+		svg {
+			display: block;
+			flex: none;
+			width: 1.25em;
+			height: 1.25em;
+			stroke-width: 1.75;
+		}
+
+		&:hover {
+			background-color: var(--lnyd-button-hover-bg, color-mix(in srgb, var(--lnyd-_btn-bg) 84%, #000));
+			background-image: none;
+			color: var(--lnyd-button-hover-color, var(--lnyd-_btn-color));
+		}
+
+		&:focus {
+			outline: none;
+		}
+
+		&:focus-visible {
+			outline: 3px solid var(--lnyd-_focus);
+			outline-offset: 3px;
+		}
+	}
+
+	.lnyd__vcard-label {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	// Contact rows: left-aligned, outline icons in the accent colour, no
+	// tiles, 44px hit area; the whole row is the link.
+	.lnyd__body {
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+		min-width: 0;
+	}
+
+	.lnyd__contacts {
+		display: grid;
+		gap: 0.5em;
+		min-width: 0;
+		margin: 0;
+		padding: 0;
+		padding-inline-start: 0.5em;
+		list-style: none;
+		text-align: start;
+	}
+
+	.lnyd__contact {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 0.875em;
+		min-height: 2.75em;
+		margin: 0;
+		padding: 0;
+		font-size: 1.125em;
+		line-height: 1.35;
+		color: inherit;
+	}
+
+	// 1.375em of the 18px row font is about 25px, so Tabler's own stroke
+	// of 2. The QR and close icons (24px) keep 2 as well.
+	.lnyd__icon {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		width: 1.5em;
+		height: 1.5em;
+		color: var(--lnyd-_icon-color);
+
+		svg {
+			display: block;
+			flex: none;
+			width: 1.375em;
+			height: 1.375em;
+			stroke-width: 2;
+		}
+	}
+
+	.lnyd__value {
+		min-width: 0;
+	}
+
+	// Themes may set a font on `a` (ATLAS: html, button, a, input...);
+	// the link takes the row's font instead. No underline until hover or
+	// focus (Jordi, October 2026).
+	a.lnyd__value {
+		font: inherit;
+		letter-spacing: inherit;
+		text-decoration-line: none;
+		text-decoration-color: color-mix(in srgb, currentcolor 35%, transparent);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.2em;
+
+		// The whole row (icon included) is the link's hit area.
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border-radius: 0.5em;
+		}
+
+		&:hover,
+		&:focus-visible {
+			text-decoration-line: underline;
+			text-decoration-color: currentcolor;
+		}
+
+		&:focus {
+			outline: none;
+		}
+
+		&:focus-visible::after {
+			outline: 2px solid currentcolor;
+			outline-offset: 2px;
+		}
+	}
+
+	// QR code. Inline (browsers without the Popover API) it sits below the
+	// contacts on a faint tint, without a border; the white plate stays for
+	// scanning in every palette.
+	.lnyd__qr {
+		display: grid;
+		justify-items: center;
+		gap: 0.5em;
+		width: fit-content;
+		max-width: 100%;
+		margin: 0 auto;
+		padding: 0.75em;
+		border: 0;
+		border-radius: 0.75em;
+		background: color-mix(in srgb, currentcolor 4%, transparent);
+		text-align: center;
+
+		figcaption {
+			max-width: 16em;
+			margin: 0;
+			font-size: 0.8125em;
+			line-height: 1.4;
+			color: var(--lnyd-_meta);
+		}
+	}
+
+	.lnyd__qr-plate {
+		display: block;
+		max-width: 100%;
+		padding: 0.5em;
+		border-radius: 0.5em;
+		background: #fff;
+		line-height: 0;
+
+		svg {
+			display: block;
+			width: var(--lnyd-_qr-size);
+			max-width: 100%;
+			height: auto;
+			aspect-ratio: 1;
+		}
+	}
+
+	.screen-reader-text {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	/* QR overlay. The popover markup follows the contacts. With the Popover
+	 * API (Baseline: Chrome/Edge 114, Firefox 125, Safari 17) it is a centred
+	 * dialog in the top layer: Esc and a click outside close it, autofocus
+	 * moves focus to the close button, and focus returns to the icon button
+	 * when it closes. Without it, the icon button and close button stay
+	 * hidden and the QR code shows inline below the contacts. No rule here
+	 * sets `display` on a closed popover, so the browser's own [popover]
+	 * rule keeps it hidden. The panel has no border: it is the surface
+	 * colour on a dimmed backdrop (a skin picks a surface that differs from
+	 * the dimmed page, see site/primion/ for dark mode). */
+	.lnyd__qr-close {
+		display: none;
+	}
+
+	@supports selector(:popover-open) {
+
+		.lnyd__qr-toggle {
+			display: inline-flex;
+		}
+
+		.lnyd__hero--no-photo {
+			min-height: 2.75em;
+		}
+
+		.lnyd__qr-pop {
+			--lnyd-_qr-size: min(14em, 60vw);
+
+			position: fixed;
+			inset: 0;
+			box-sizing: border-box;
+			width: min(22em, calc(100vw - 2em));
+			height: fit-content;
+			max-height: calc(100vh - 2em);
+			margin: auto;
+			padding: 1em 1.5em 1.5em;
+			overflow: auto;
+			border: 0;
+			border-radius: var(--lnyd-_radius);
+			background: var(--lnyd-_surface);
+			box-shadow: 0 1em 3em rgb(0 0 0 / 30%);
+			color: var(--lnyd-_ink);
+			text-align: center;
+		}
+
+		.lnyd__qr-pop:popover-open {
+			display: grid;
+			justify-items: center;
+			gap: 0.5em;
+		}
+
+		.lnyd__qr-pop::backdrop {
+			background: rgb(0 0 0 / 55%);
+		}
+
+		.lnyd__qr-pop .lnyd__qr {
+			padding: 0;
+			background: none;
+
+			figcaption {
+				font-size: 0.9375em;
+			}
+		}
+
+		.lnyd__qr-close {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			justify-self: end;
+			width: 2.75em;
+			height: 2.75em;
+			margin: 0;
+			margin-inline-end: -0.75em;
+			padding: 0;
+			border: 0;
+			border-radius: 50%;
+			background: none;
+			color: inherit;
+			font: inherit; // UA button font
+			letter-spacing: inherit;
+			line-height: 0;
+			cursor: pointer;
+
+			svg {
+				display: block;
+				width: 1.5em;
+				height: 1.5em;
+			}
+
+			&:hover {
+				background: color-mix(in srgb, currentcolor 8%, transparent);
+			}
+
+			&:focus {
+				outline: none;
+			}
+
+			&:focus-visible {
+				outline: 3px solid var(--lnyd-_focus);
+				outline-offset: 0;
+			}
+		}
+	}
+}
+
+/*
+ * Contact links take the card's text colour, at a specificity that theme
+ * link rules (a, a:hover, main a) do not beat. When the block, or a block
+ * around it, has a core link colour, core adds a wp-elements-<hash> class
+ * and prints `.wp-elements-<hash> a:where(:not(.wp-element-button))`
+ * (WordPress 6.6 block-supports/elements.php); this rule then steps aside so
+ * the chosen link colour wins. The second :not() argument covers the editor,
+ * where the class sits on the outer block wrapper.
+ */
+.wp-block-lanyard-card:not([class*="wp-elements-"], [class*="wp-elements-"] *) a.lnyd__value {
+	color: inherit;
+}
+
+/*
+ * Width: fill the container up to 30em (Auto), or a chosen preset.
+ * :is(.lnyd, .wp-block) raises specificity above core's constrained layout
+ * rule, so the theme's contentSize is applied through min() instead.
+ */
+.wp-block-lanyard-card:is(.lnyd, .wp-block) {
+	max-width: min(var(--lnyd-_max), var(--wp--style--global--content-size, 100%));
+
+	&.lnyd-width-narrow {
+		--lnyd-_max: 22.5em;
+	}
+
+	&.lnyd-width-medium {
+		--lnyd-_max: 35em;
+	}
+
+	&.lnyd-width-wide {
+		--lnyd-_max: 45em;
+	}
+
+	&.lnyd-width-full {
+		max-width: var(--wp--style--global--content-size, 100%);
+	}
+
+	&.alignwide {
+		max-width: var(--wp--style--global--wide-size, 100%);
+	}
+
+	&.alignfull {
+		max-width: none;
+	}
+}
+
+// Browsers without color-mix(): plain fallbacks for the tinted tokens.
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+
+	.wp-block-lanyard-card {
+		--lnyd-_meta: var(--lnyd-meta-color, currentcolor);
+		--lnyd-_btn-end: var(--lnyd-button-gradient-end, var(--lnyd-_btn-bg));
+
+		a.lnyd__value:hover,
+		a.lnyd__value:focus-visible {
+			text-decoration-color: currentcolor;
+		}
+
+		.lnyd__qr {
+			background: none;
+		}
+
+		a.lnyd__vcard:hover {
+			background-color: var(--lnyd-button-hover-bg, var(--lnyd-_btn-bg));
+			text-decoration: underline;
+		}
+
+		.lnyd__qr-toggle {
+			background: var(--lnyd-_surface);
+		}
+	}
+}
+
+// Windows high contrast (forced colours) only: the system draws button
+// boundaries that the normal look leaves out, so the buttons stay findable.
+@media (forced-colors: active) {
+
+	.wp-block-lanyard-card {
+
+		a.lnyd__vcard {
+			border: 2px solid ButtonText;
+		}
+
+		.lnyd__qr-toggle,
+		.lnyd__qr-close {
+			border: 1px solid ButtonText;
+		}
+
+		.lnyd__qr-pop {
+			border: 2px solid CanvasText;
+		}
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+	.wp-block-lanyard-card a.lnyd__value,
+	.wp-block-lanyard-card a.lnyd__vcard {
+		transition: color 0.18s ease, background-color 0.18s ease, text-decoration-color 0.18s ease;
+	}
+
+	.wp-block-lanyard-card .lnyd__qr-toggle,
+	.wp-block-lanyard-card .lnyd__qr-close {
+		transition: background-color 0.18s ease;
+	}
+
+	// Entry animation only; with reduced motion the overlay simply appears.
+	.wp-block-lanyard-card .lnyd__qr-pop:popover-open {
+		animation: lnyd-qr-in 0.18s ease-out;
+	}
+
+	.wp-block-lanyard-card .lnyd__qr-pop:popover-open::backdrop {
+		animation: lnyd-fade-in 0.18s ease-out;
+	}
+}
+
+@keyframes lnyd-qr-in {
+
+	from {
+		opacity: 0;
+		transform: scale(0.96);
+	}
+}
+
+@keyframes lnyd-fade-in {
+
+	from {
+		opacity: 0;
+	}
+}

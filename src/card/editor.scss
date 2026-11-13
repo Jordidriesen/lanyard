@@ -1,0 +1,100 @@
+/*
+ * Editor only.
+ *
+ * The preview is ServerSideRender inside the block wrapper, so render.php's
+ * own wrapper is nested in the editor's. Block supports chosen by an editor
+ * (background, border, padding) and the width limit are applied to the
+ * outer (editor) wrapper only (skipBlockSupportAttributes), so the inner one
+ * is reset here to avoid doubling them. The card itself has no chrome
+ * (2.0.0: Profile is the only look, no block styles). Colour
+ * tokens chosen in the block settings arrive on the inner wrapper as inline
+ * --lnyd-* properties, which is why the parts inside it read them there.
+ * [class] lifts the reset above the width presets in style.scss.
+ * The inner wrapper inherits the text colour (1.4.0), so a core text colour
+ * set on the outer wrapper shows in the preview; the outer wrapper already
+ * carries the card's default text colour.
+ */
+.wp-block-lanyard-card .wp-block-lanyard-card.lnyd[class] {
+	color: inherit;
+	width: 100%;
+	min-width: 0;
+	max-width: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: inherit;
+	box-shadow: none;
+	background: none;
+}
+
+// Inspector: content fields.
+.lnyd-field {
+	margin: 0 0 1rem;
+}
+
+.lnyd-field__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	margin-bottom: 0.25rem;
+}
+
+.lnyd-field__legend {
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 1.4;
+	text-transform: uppercase;
+}
+
+.lnyd-tags {
+	margin-top: 0.375rem;
+}
+
+.lnyd-tags__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lnyd-tag {
+	display: block;
+	margin: 0 0 0.25rem;
+	padding: 0.25rem 0.5rem;
+	border-left: 3px solid var(--wp-admin-theme-color, #3858e9);
+	border-radius: 2px;
+	background: #f0f0f0;
+	font-size: 12px;
+	line-height: 1.4;
+
+	&.is-invalid {
+		border-left-color: #cc1818;
+	}
+}
+
+.lnyd-help {
+	margin: 0 0 0.5rem;
+	font-size: 12px;
+	font-style: normal;
+	color: #757575;
+}
+
+// Dynamic-data popover.
+.lnyd-dd__popover .components-popover__content {
+	width: 300px;
+	max-width: 90vw;
+	padding: 16px;
+}
+
+.lnyd-dd__form {
+	display: grid;
+	gap: 12px;
+}
+
+.lnyd-dd__options {
+	display: grid;
+	gap: 12px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
