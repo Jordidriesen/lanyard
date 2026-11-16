@@ -1,0 +1,24 @@
+<wpml-config>
+	<!--
+		Lanyard 2.2.2: card text that WPML sends to translation.
+		The card is a dynamic block, so its text lives in block attributes,
+		not in the saved HTML. Keep any {{lnyd ...}} tags unchanged when
+		translating: they are filled in per language on the page.
+		Phone, mobile and email are left out on purpose (rarely language
+		specific); add a key here if a site needs them.
+	-->
+	<gutenberg-blocks>
+		<gutenberg-block type="lanyard/card" translate="1">
+			<key name="name" />
+			<key name="jobTitle" />
+			<key name="company" />
+			<key name="tagline" />
+			<key name="address" />
+			<key name="website" />
+			<key name="linkedin" />
+			<key name="vcardLabel" />
+			<key name="qrCaption" />
+			<key name="avatarAlt" />
+		</gutenberg-block>
+	</gutenberg-blocks>
+</wpml-config>

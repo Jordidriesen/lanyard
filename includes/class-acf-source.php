@@ -380,6 +380,11 @@ class Acf_Source {
 	 * type, that type must be eligible, the post must be published and it must
 	 * not be password protected.
 	 *
+	 * 2.2.2: on multilingual sites the saved ID is swapped for the post's
+	 * translation in the current language (WPML, or Polylang through its
+	 * WPML compatibility). Without a translation the original is kept. The
+	 * checks below run on the post that is actually shown.
+	 *
 	 * @param mixed $ref_id   Post ID (untrusted).
 	 * @param mixed $ref_type Post type slug (untrusted).
 	 * @return int|null
@@ -389,6 +394,11 @@ class Acf_Source {
 		$ref_type = self::sanitize_post_type( $ref_type );
 
 		if ( $ref_id <= 0 || '' === $ref_type || ! self::is_ref_post_type( $ref_type ) ) {
+			return null;
+		}
+
+		$ref_id = absint( apply_filters( 'wpml_object_id', $ref_id, $ref_type, true ) );
+		if ( $ref_id <= 0 ) {
 			return null;
 		}
 

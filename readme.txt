@@ -4,7 +4,7 @@ Tags: business card, vcard, acf, block, staff
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -216,6 +216,21 @@ them. A bound attribute is never parsed for tags.
   dynamic-data picker), built with @wordpress/scripts (webpack); WordPress
   packages are not bundled but taken from core.
 
+== Multilingual sites (WPML) ==
+
+* Card text: wpml-config.xml in the plugin folder tells WPML which card
+  fields to send to translation: name, job title, company, tagline, address,
+  website, LinkedIn, the Add to contacts label, the QR caption and the photo
+  alt text. Phone, mobile and email are left out on purpose. Leave any
+  {{lnyd ...}} tags inside a field unchanged when translating.
+* Tags for this post (and cards in Blocksy Content Blocks) read the post
+  that is shown, so they follow the translated post. Translate ACF fields
+  with ACF Multilingual as usual.
+* Tags for "another post" show that post's translation in the current
+  language (wpml_object_id), or the original when there is none.
+* Built-in labels such as "Connect on LinkedIn" use the lanyard text domain:
+  translate them with WPML String Translation or a .mo file in languages/.
+
 == Migrating from Business Card Block ==
 
 Blocks cannot be migrated with `deprecated` because the block name changes.
@@ -271,6 +286,11 @@ Translations: generate a POT with `wp i18n make-pot . languages/lanyard.pot`.
 
 == Upgrade Notice ==
 
+= 2.2.2 =
+WPML support: card text can be translated in the WPML translation editor,
+and "another post" tags show the post in the current language. Existing
+pages need to be sent to translation again to pick up the card fields.
+
 = 2.2.1 =
 Security hardening: the editor preview can no longer reveal another author's
 email address, and ACF user fields follow the same "public user" rule as core
@@ -302,6 +322,14 @@ panel or Centered with QR now render as Profile automatically; nothing has to
 be re-saved.
 
 == Changelog ==
+
+= 2.2.2 =
+* New: wpml-config.xml, so WPML sends the card's text fields (name, job
+  title, company, tagline, address, website, LinkedIn, Add to contacts
+  label, QR caption, photo alt text) to translation.
+* New: "another post" tags (post_ref) resolve to the post's translation in
+  the current language through the wpml_object_id filter, falling back to
+  the original. The published and password checks run on the post shown.
 
 = 2.2.1 =
 * Security: in the editor preview with a "Preview with" post, user_email of

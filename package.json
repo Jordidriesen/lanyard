@@ -1,6 +1,6 @@
 {
 	"name": "lanyard",
-	"version": "2.2.1",
+	"version": "2.2.2",
 	"private": true,
 	"description": "Server-rendered business card block with ACF sources and theme.json styling. Fork of Business Card Block 2.1.7 by bPlugins.",
 	"license": "GPL-3.0-or-later",
