@@ -1,6 +1,6 @@
 {
 	"name": "lanyard",
-	"version": "2.2.2",
+	"version": "2.3.0",
 	"private": true,
 	"description": "Server-rendered business card block with ACF sources and theme.json styling. Fork of Business Card Block 2.1.7 by bPlugins.",
 	"license": "GPL-3.0-or-later",
@@ -11,6 +11,7 @@
 		"lint:css": "wp-scripts lint-style \"src/**/*.scss\"",
 		"lint:php-syntax": "node tools/php-syntax-check.js lanyard.php uninstall.php includes src",
 		"test:unit": "node --test \"tools/*.test.mjs\"",
+		"i18n": "node tools/i18n.js",
 		"plugin-zip": "wp-scripts plugin-zip"
 	},
 	"files": [

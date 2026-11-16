@@ -1,0 +1,211 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Lanyard 2.3.0\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: lanyard\n"
+
+#: includes/class-card-data.php:407
+msgid "Connect on LinkedIn"
+msgstr "Auf LinkedIn vernetzen"
+
+#: includes/class-core-source.php:87
+msgid "Title"
+msgstr "Titel"
+
+#: includes/class-core-source.php:88
+msgid "Excerpt"
+msgstr "Textauszug"
+
+#: includes/class-core-source.php:89
+msgid "Permalink"
+msgstr "Permalink"
+
+#: includes/class-core-source.php:90
+msgid "Publish date"
+msgstr "Veröffentlichungsdatum"
+
+#: includes/class-core-source.php:91
+msgid "Modified date"
+msgstr "Änderungsdatum"
+
+#: includes/class-core-source.php:92
+msgid "Post type label"
+msgstr "Bezeichnung des Inhaltstyps"
+
+#: includes/class-core-source.php:93
+msgid "Featured image"
+msgstr "Beitragsbild"
+
+#: includes/class-core-source.php:94
+msgid "Site title"
+msgstr "Titel der Website"
+
+#: includes/class-core-source.php:95
+msgid "Site tagline"
+msgstr "Untertitel der Website"
+
+#: includes/class-core-source.php:96
+msgid "Home URL"
+msgstr "URL der Startseite"
+
+#: includes/class-core-source.php:97
+msgid "Site logo"
+msgstr "Website-Logo"
+
+#: includes/class-core-source.php:98
+msgid "Display name"
+msgstr "Öffentlicher Name"
+
+#: includes/class-core-source.php:99
+msgid "First name"
+msgstr "Vorname"
+
+#: includes/class-core-source.php:100
+msgid "Last name"
+msgstr "Nachname"
+
+#: includes/class-core-source.php:101
+msgid "Nickname"
+msgstr "Spitzname"
+
+#: includes/class-core-source.php:102
+msgid "Biographical info"
+msgstr "Biografische Angaben"
+
+#: includes/class-core-source.php:103
+msgid "Website (profile)"
+msgstr "Website (Profil)"
+
+#: includes/class-core-source.php:104
+msgid "Email (post author only)"
+msgstr "E-Mail (nur Autor des Beitrags)"
+
+#: includes/class-core-source.php:105
+msgid "Avatar"
+msgstr "Avatar"
+
+#: includes/class-qr.php:188
+msgid "Nothing to encode: the QR code payload is empty."
+msgstr "Nichts zu kodieren: Der Inhalt des QR-Codes ist leer."
+
+#: includes/class-qr.php:206
+msgid "The QR code payload is too large to encode: it does not fit in a version 40 symbol at the requested error correction level."
+msgstr "Der Inhalt des QR-Codes ist zu groß: Er passt nicht in ein Symbol der Version 40 mit der gewünschten Fehlerkorrekturstufe."
+
+#: includes/class-renderer.php:196
+msgid "Show QR code"
+msgstr "QR-Code anzeigen"
+
+#: includes/class-renderer.php:197
+msgid "QR code"
+msgstr "QR-Code"
+
+#: includes/class-renderer.php:198
+msgid "Close"
+msgstr "Schließen"
+
+#: includes/class-renderer.php:435
+msgid "Phone"
+msgstr "Telefon"
+
+#: includes/class-renderer.php:436
+msgid "Mobile"
+msgstr "Mobil"
+
+#: includes/class-renderer.php:437
+msgid "Email"
+msgstr "E-Mail"
+
+#: includes/class-renderer.php:438
+msgid "Website"
+msgstr "Website"
+
+#: includes/class-renderer.php:439
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: includes/class-renderer.php:440
+msgid "Address"
+msgstr "Adresse"
+
+#. translators: %s: name on the business card.
+#: includes/class-renderer.php:523
+#, php-format
+msgid "QR code with the contact details of %s"
+msgstr "QR-Code mit den Kontaktdaten von %s"
+
+#. translators: %s: name on the business card.
+#: includes/class-renderer.php:524
+msgid "QR code with the contact details on this card"
+msgstr "QR-Code mit den Kontaktdaten dieser Karte"
+
+#: includes/class-renderer.php:611 includes/patterns.php:48
+msgid "Add to contacts"
+msgstr "Zu Kontakten hinzufügen"
+
+#: includes/class-rest.php:105
+msgid "Sorry, you are not allowed to list card fields."
+msgstr "Du bist leider nicht berechtigt, die Kartenfelder aufzulisten."
+
+#: includes/class-rest.php:127
+msgid "Unknown post type."
+msgstr "Unbekannter Inhaltstyp."
+
+#: includes/class-rest.php:160
+msgid "WordPress"
+msgstr "WordPress"
+
+#: includes/class-rest.php:177
+msgid "(no group title)"
+msgstr "(kein Gruppentitel)"
+
+#. translators: %s: ACF field group title.
+#: includes/class-rest.php:182
+#, php-format
+msgid "ACF: %s"
+msgstr "ACF: %s"
+
+#: includes/patterns.php:30 includes/privacy.php:29
+msgid "Lanyard"
+msgstr "Lanyard"
+
+#: includes/patterns.php:38
+msgid "Jane Doe"
+msgstr "Erika Mustermann"
+
+#: includes/patterns.php:39
+msgid "Head of Product"
+msgstr "Produktleiterin"
+
+#: includes/patterns.php:40
+msgid "Example Company"
+msgstr "Musterfirma"
+
+#: includes/patterns.php:44
+msgid "1 Example Street, Example City"
+msgstr "Musterstraße 1, Musterstadt"
+
+#: includes/patterns.php:46
+msgid "Scan to save the contact"
+msgstr "Scannen, um den Kontakt zu speichern"
+
+#: includes/patterns.php:54
+msgid "Lanyard: Profile"
+msgstr "Lanyard: Profil"
+
+#: includes/patterns.php:55
+msgid "Digital business card on the page background: QR code button, name, job title, an Add to contacts button and contact rows with outline icons. Add a photo in the block settings."
+msgstr "Digitale Visitenkarte auf dem Seitenhintergrund: QR-Code-Schaltfläche, Name, Position, eine Schaltfläche „Zu Kontakten hinzufügen“ und Kontaktzeilen mit Umriss-Icons. Füge in den Blockeinstellungen ein Foto hinzu."
+
+#: includes/privacy.php:26
+msgid "Business cards on this site show work contact details of our staff (name, job title, phone, email, address, photo, LinkedIn profile). These details are published with the staff member’s knowledge for the purpose of being contacted in a business context. The cards and their \"add to contacts\" files are generated on this server; no data is sent to third parties when a card is displayed or downloaded."
+msgstr "Visitenkarten auf dieser Website zeigen berufliche Kontaktdaten unserer Mitarbeitenden (Name, Position, Telefon, E-Mail, Adresse, Foto, LinkedIn-Profil). Diese Angaben werden mit Wissen der betreffenden Person veröffentlicht, damit sie im geschäftlichen Rahmen kontaktiert werden kann. Die Karten und ihre „Zu Kontakten hinzufügen“-Dateien werden auf diesem Server erstellt; beim Anzeigen oder Herunterladen einer Karte werden keine Daten an Dritte übermittelt."
+
+#: includes/privacy.php:27
+msgid "A card can also show details from a user profile on this site (display name, first and last name, nickname, biographical info, website, profile picture). A user’s email address is only shown on posts that user wrote, unless the site owner allows more. Profile pictures from external services such as Gravatar are not loaded unless the site owner allows that service."
+msgstr "Eine Karte kann auch Angaben aus einem Benutzerprofil dieser Website zeigen (öffentlicher Name, Vor- und Nachname, Spitzname, biografische Angaben, Website, Profilbild). Die E-Mail-Adresse eines Benutzers wird nur bei Beiträgen gezeigt, die dieser Benutzer selbst verfasst hat, es sei denn, der Website-Betreiber erlaubt mehr. Profilbilder externer Dienste wie Gravatar werden nicht geladen, es sei denn, der Website-Betreiber erlaubt diesen Dienst."

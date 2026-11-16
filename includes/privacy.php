@@ -23,7 +23,7 @@ function lnyd_privacy_policy_content() {
 		return;
 	}
 
-	$text = '<p>' . __( 'Business cards on this site show work contact details of our staff (name, job title, phone, email, address, photo, LinkedIn profile). These details are published with the staff member’s knowledge for the purpose of being contacted in a business context. The cards and their "save contact" files are generated on this server; no data is sent to third parties when a card is displayed or downloaded.', 'lanyard' ) . '</p>'
+	$text = '<p>' . __( 'Business cards on this site show work contact details of our staff (name, job title, phone, email, address, photo, LinkedIn profile). These details are published with the staff member’s knowledge for the purpose of being contacted in a business context. The cards and their "add to contacts" files are generated on this server; no data is sent to third parties when a card is displayed or downloaded.', 'lanyard' ) . '</p>'
 		. '<p>' . __( 'A card can also show details from a user profile on this site (display name, first and last name, nickname, biographical info, website, profile picture). A user’s email address is only shown on posts that user wrote, unless the site owner allows more. Profile pictures from external services such as Gravatar are not loaded unless the site owner allows that service.', 'lanyard' ) . '</p>';
 
 	wp_add_privacy_policy_content( __( 'Lanyard', 'lanyard' ), wp_kses_post( $text ) );

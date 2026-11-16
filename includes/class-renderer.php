@@ -591,7 +591,7 @@ class Renderer {
 	}
 
 	/**
-	 * "Save contact" link with the vCard inline as a data: URI.
+	 * "Add to contacts" link with the vCard inline as a data: URI.
 	 *
 	 * No endpoint and no JavaScript: the browser downloads the file directly.
 	 *
@@ -608,7 +608,7 @@ class Renderer {
 
 		$label = isset( $attributes['vcardLabel'] ) ? Card_Data::text( $attributes['vcardLabel'] ) : '';
 		if ( '' === $label ) {
-			$label = __( 'Save contact', 'lanyard' );
+			$label = __( 'Add to contacts', 'lanyard' );
 		}
 
 		$href = esc_url( 'data:text/vcard;charset=utf-8,' . rawurlencode( $vcard ), array( 'data' ) );

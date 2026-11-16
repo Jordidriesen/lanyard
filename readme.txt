@@ -4,7 +4,7 @@ Tags: business card, vcard, acf, block, staff
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.2
+Stable tag: 2.3.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -92,7 +92,7 @@ Update URI: false) and is never updated over by the original.
   text, background and link colours beat theme, skin and plugin defaults in
   light and dark mode. The job title colour setting also overrides the
   accent-coloured job title.
-* "Save contact" vCard (inline data: link, no endpoint), QR code (server-side
+* "Add to contacts" vCard (inline data: link, no endpoint), QR code (server-side
   SVG), schema.org JSON-LD.
 
 == Inline tags ==
@@ -228,8 +228,13 @@ them. A bound attribute is never parsed for tags.
   with ACF Multilingual as usual.
 * Tags for "another post" show that post's translation in the current
   language (wpml_object_id), or the original when there is none.
-* Built-in labels such as "Connect on LinkedIn" use the lanyard text domain:
-  translate them with WPML String Translation or a .mo file in languages/.
+* Built-in labels such as "Add to contacts" and "Connect on LinkedIn" ship
+  translated in Dutch (nl_NL, nl_BE), French (fr_FR, fr_BE), German (de_DE)
+  and Spanish (es_ES). A translation entered in WPML String Translation
+  (text domain lanyard) takes priority over the shipped one.
+* The "Add to contacts" button label and the QR caption on a card are card
+  text, not built-in labels: leave them empty to use the translated default
+  "Add to contacts" (and no caption), or translate them per page as above.
 
 == Migrating from Business Card Block ==
 
@@ -282,9 +287,17 @@ third parties.
 npm install
 npm run build
 
-Translations: generate a POT with `wp i18n make-pot . languages/lanyard.pot`.
+Translations: `npm run i18n` regenerates languages/lanyard.pot from the PHP
+sources and compiles every languages/lanyard-<locale>.po to .mo and
+.l10n.php (no WP-CLI or gettext needed). Edit the .po files, then run it
+again. Editor (JavaScript) strings are not covered yet.
 
 == Upgrade Notice ==
+
+= 2.3.0 =
+The built-in labels ("Add to contacts", "Connect on LinkedIn", contact row
+names and more) now ship in Dutch, French, German and Spanish. No change
+needed to existing cards.
 
 = 2.2.2 =
 WPML support: card text can be translated in the WPML translation editor,
@@ -322,6 +335,16 @@ panel or Centered with QR now render as Profile automatically; nothing has to
 be re-saved.
 
 == Changelog ==
+
+= 2.3.0 =
+* Changed: the default button label (used when Button label is empty) is
+  now "Add to contacts" instead of "Save contact". The Button label field
+  shows the default as its placeholder.
+* New: Dutch (nl_NL, nl_BE), French (fr_FR, fr_BE), German (de_DE) and
+  Spanish (es_ES) translations of the front-end labels, block pattern,
+  REST field labels and privacy text, as .mo and .l10n.php files.
+* New: tools/i18n.js (npm run i18n) builds the POT and compiles the .po
+  files without WP-CLI.
 
 = 2.2.2 =
 * New: wpml-config.xml, so WPML sends the card's text fields (name, job

@@ -517,7 +517,7 @@ function Edit( props ) {
 					<ToggleControl
 						__nextHasNoMarginBottom
 						label={ __(
-							'“Save contact” button (vCard)',
+							'“Add to contacts” button (vCard)',
 							'lanyard'
 						) }
 						checked={ !! attributes.showVcard }
@@ -531,6 +531,11 @@ function Edit( props ) {
 							__next40pxDefaultSize
 							label={ __( 'Button label', 'lanyard' ) }
 							value={ attributes.vcardLabel || '' }
+							placeholder={ __( 'Add to contacts', 'lanyard' ) }
+							help={ __(
+								'Leave empty to use the translated default.',
+								'lanyard'
+							) }
 							onChange={ ( value ) =>
 								setAttributes( { vcardLabel: value } )
 							}
