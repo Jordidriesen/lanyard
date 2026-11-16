@@ -349,14 +349,12 @@ class Acf_Source {
 
 			case 'user':
 				$user_id = isset( $context['user_id'] ) ? absint( $context['user_id'] ) : 0;
-				if ( 0 === $user_id && $post_id > 0 ) {
-					// 0 means "author of the post being rendered".
-					$user_id = (int) get_post_field( 'post_author', $post_id );
-				}
-				if ( $user_id <= 0 || ! get_userdata( $user_id ) ) {
-					return null;
-				}
-				return 'user_' . $user_id;
+				// 0 means "author of the post being rendered". 2.2.1: a chosen
+				// user must pass the same rule as core profile fields (the
+				// author, or a user with published content), so a card cannot
+				// read ACF user fields of accounts that never published.
+				$user_id = Core_Source::target_user( 0 === $user_id ? 'author' : (string) $user_id, $post_id );
+				return $user_id > 0 ? 'user_' . $user_id : null;
 		}
 
 		return null;

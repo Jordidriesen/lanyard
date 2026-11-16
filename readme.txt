@@ -4,7 +4,7 @@ Tags: business card, vcard, acf, block, staff
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -120,9 +120,12 @@ custom_logo (photo only). user: display_name, first_name, last_name, nickname,
 bio, user_url, avatar (photo only) and user_email.
 
 * user_email is only resolved when the user is the author of the post being
-  rendered, or when the filter lnyd_allow_user_email returns true.
-* A chosen user (not the post author) is only used for core fields when that
-  user has published posts (filter lnyd_user_is_public).
+  rendered, or when the filter lnyd_allow_user_email returns true. In the
+  editor preview of a "Preview with" post, it is only shown to someone who
+  may edit that post, or to the author themselves.
+* A chosen user (not the post author) is only used when that user has
+  published posts (filter lnyd_user_is_public), for core fields and, since
+  2.2.1, for ACF user fields too.
 * The avatar comes from get_avatar_url(). Gravatar and other external URLs are
   dropped unless their host is added with lnyd_allowed_image_hosts.
 
@@ -268,6 +271,11 @@ Translations: generate a POT with `wp i18n make-pot . languages/lanyard.pot`.
 
 == Upgrade Notice ==
 
+= 2.2.1 =
+Security hardening: the editor preview can no longer reveal another author's
+email address, and ACF user fields follow the same "public user" rule as core
+profile fields. Update recommended.
+
 = 2.2.0 =
 The card stylesheet now loads only on pages that show a card, also in
 classic themes such as Blocksy. No change needed to existing cards.
@@ -294,6 +302,15 @@ panel or Centered with QR now render as Profile automatically; nothing has to
 be re-saved.
 
 == Changelog ==
+
+= 2.2.1 =
+* Security: in the editor preview with a "Preview with" post, user_email of
+  that post's author was shown to any user who can edit posts. It is now only
+  shown to users who may edit that post, or to the author themselves.
+* Security: ACF user fields (source user) for a chosen user ID now require
+  that user to be the post author or to have published content (filter
+  lnyd_user_is_public), like core profile fields. Before, any account's
+  opted-in ACF user fields could be read.
 
 = 2.2.0 =
 * Performance: in classic themes the card stylesheet is no longer printed on

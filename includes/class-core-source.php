@@ -374,6 +374,14 @@ class Core_Source {
 		$author  = $post_id > 0 ? (int) get_post_field( 'post_author', $post_id ) : 0;
 		$allowed = $author > 0 && $author === (int) $user_id;
 
+		// 2.2.1: in the editor preview the post can be a "Preview with" post
+		// of another author. Only show that author's email to someone who may
+		// edit the post (or to the author themselves), so the preview cannot
+		// be used to look up email addresses.
+		if ( $allowed && Renderer::is_editor_preview() && get_current_user_id() !== (int) $user_id && ! current_user_can( 'edit_post', $post_id ) ) {
+			$allowed = false;
+		}
+
 		/**
 		 * Filter whether a user's email address may be shown on a card.
 		 *
