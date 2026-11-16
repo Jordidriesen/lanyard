@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Lanyard 2.3.0\n"
+"Project-Id-Version: Lanyard 2.4.0\n"
 "Language-Team: Spanish (Spain)\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +144,15 @@ msgstr "Código QR con los datos de contacto de %s"
 msgid "QR code with the contact details on this card"
 msgstr "Código QR con los datos de contacto de esta tarjeta"
 
-#: includes/class-renderer.php:611 includes/patterns.php:48
+#: includes/class-renderer.php:555
+msgid "Scan to open this page"
+msgstr "Escanea para abrir esta página"
+
+#: includes/class-renderer.php:556
+msgid "Scan to add to contacts"
+msgstr "Escanea para añadir a contactos"
+
+#: includes/class-renderer.php:621 includes/class-renderer.php:623
 msgid "Add to contacts"
 msgstr "Añadir a contactos"
 
@@ -190,15 +198,11 @@ msgstr "Empresa de ejemplo"
 msgid "1 Example Street, Example City"
 msgstr "Calle Ejemplo 1, Ciudad Ejemplo"
 
-#: includes/patterns.php:46
-msgid "Scan to save the contact"
-msgstr "Escanea para guardar el contacto"
-
-#: includes/patterns.php:54
+#: includes/patterns.php:52
 msgid "Lanyard: Profile"
 msgstr "Lanyard: Perfil"
 
-#: includes/patterns.php:55
+#: includes/patterns.php:53
 msgid "Digital business card on the page background: QR code button, name, job title, an Add to contacts button and contact rows with outline icons. Add a photo in the block settings."
 msgstr "Tarjeta de visita digital sobre el fondo de la página: botón del código QR, nombre, cargo, un botón Añadir a contactos y filas de contacto con iconos de contorno. Añade una foto en los ajustes del bloque."
 

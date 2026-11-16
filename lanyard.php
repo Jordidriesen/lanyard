@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Lanyard
  * Description:       A contact card block for people and teams. Fill any field with dynamic data (this post, another post, the site, a user, or ACF fields) using inline tags, shown as a digital business card (Profile) that takes on your block theme's colours and fonts. Fork of Business Card Block 2.1.7 by bPlugins.
- * Version:           2.3.0
+ * Version:           2.4.0
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Jordi Driesen; based on Business Card Block by bPlugins
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'LNYD_VERSION', '2.3.0' );
+define( 'LNYD_VERSION', '2.4.0' );
 define( 'LNYD_FILE', __FILE__ );
 define( 'LNYD_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LNYD_URL', plugin_dir_url( __FILE__ ) );

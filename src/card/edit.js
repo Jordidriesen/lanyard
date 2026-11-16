@@ -525,22 +525,6 @@ function Edit( props ) {
 							setAttributes( { showVcard: value } )
 						}
 					/>
-					{ attributes.showVcard && (
-						<TextControl
-							__nextHasNoMarginBottom
-							__next40pxDefaultSize
-							label={ __( 'Button label', 'lanyard' ) }
-							value={ attributes.vcardLabel || '' }
-							placeholder={ __( 'Add to contacts', 'lanyard' ) }
-							help={ __(
-								'Leave empty to use the translated default.',
-								'lanyard'
-							) }
-							onChange={ ( value ) =>
-								setAttributes( { vcardLabel: value } )
-							}
-						/>
-					) }
 					<ToggleControl
 						__nextHasNoMarginBottom
 						label={ __( 'QR code', 'lanyard' ) }
@@ -574,15 +558,6 @@ function Edit( props ) {
 								] }
 								onChange={ ( value ) =>
 									setAttributes( { qrSource: value } )
-								}
-							/>
-							<TextControl
-								__nextHasNoMarginBottom
-								__next40pxDefaultSize
-								label={ __( 'QR caption', 'lanyard' ) }
-								value={ attributes.qrCaption || '' }
-								onChange={ ( value ) =>
-									setAttributes( { qrCaption: value } )
 								}
 							/>
 						</>

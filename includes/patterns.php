@@ -43,9 +43,7 @@ function lnyd_register_patterns() {
 		'website'    => 'https://www.example.com',
 		'address'    => __( '1 Example Street, Example City', 'lanyard' ),
 		'showQr'     => true,
-		'qrCaption'  => __( 'Scan to save the contact', 'lanyard' ),
 		'showVcard'  => true,
-		'vcardLabel' => __( 'Add to contacts', 'lanyard' ),
 	);
 
 	register_block_pattern(

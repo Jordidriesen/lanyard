@@ -4,7 +4,7 @@ Tags: business card, vcard, acf, block, staff
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.3.0
+Stable tag: 2.4.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -220,8 +220,8 @@ them. A bound attribute is never parsed for tags.
 
 * Card text: wpml-config.xml in the plugin folder tells WPML which card
   fields to send to translation: name, job title, company, tagline, address,
-  website, LinkedIn, the Add to contacts label, the QR caption and the photo
-  alt text. Phone, mobile and email are left out on purpose. Leave any
+  website, LinkedIn and the photo alt text. Phone, mobile and email are left
+  out on purpose. Leave any
   {{lnyd ...}} tags inside a field unchanged when translating.
 * Tags for this post (and cards in Blocksy Content Blocks) read the post
   that is shown, so they follow the translated post. Translate ACF fields
@@ -232,9 +232,11 @@ them. A bound attribute is never parsed for tags.
   translated in Dutch (nl_NL, nl_BE), French (fr_FR, fr_BE), German (de_DE)
   and Spanish (es_ES). A translation entered in WPML String Translation
   (text domain lanyard) takes priority over the shipped one.
-* The "Add to contacts" button label and the QR caption on a card are card
-  text, not built-in labels: leave them empty to use the translated default
-  "Add to contacts" (and no caption), or translate them per page as above.
+* The button label ("Add to contacts") and the QR caption ("Scan to add to
+  contacts", or "Scan to open this page" for a page link) are fixed,
+  translated texts since 2.4.0 and cannot be changed per card. Developers
+  can change them with the filters lnyd_vcard_label and lnyd_qr_caption
+  (return '' from lnyd_qr_caption to hide the caption).
 
 == Migrating from Business Card Block ==
 
@@ -294,6 +296,11 @@ again. Editor (JavaScript) strings are not covered yet.
 
 == Upgrade Notice ==
 
+= 2.4.0 =
+The button label and QR caption are now fixed, translated texts ("Add to
+contacts", "Scan to add to contacts"). Custom labels saved on cards are
+no longer used.
+
 = 2.3.0 =
 The built-in labels ("Add to contacts", "Connect on LinkedIn", contact row
 names and more) now ship in Dutch, French, German and Spanish. No change
@@ -335,6 +342,15 @@ panel or Centered with QR now render as Profile automatically; nothing has to
 be re-saved.
 
 == Changelog ==
+
+= 2.4.0 =
+* Changed: the button label and the QR caption are fixed, translated texts.
+  The Button label and QR caption fields are removed from the block
+  settings; values saved by earlier versions are ignored. The caption
+  reads "Scan to add to contacts" (or "Scan to open this page" when the QR
+  holds the page link).
+* New: filters lnyd_vcard_label and lnyd_qr_caption.
+* WPML: vcardLabel and qrCaption are no longer sent to translation.
 
 = 2.3.0 =
 * Changed: the default button label (used when Button label is empty) is

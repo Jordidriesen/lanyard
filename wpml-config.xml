@@ -16,8 +16,6 @@
 			<key name="address" />
 			<key name="website" />
 			<key name="linkedin" />
-			<key name="vcardLabel" />
-			<key name="qrCaption" />
 			<key name="avatarAlt" />
 		</gutenberg-block>
 	</gutenberg-blocks>

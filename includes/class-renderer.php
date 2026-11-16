@@ -546,7 +546,15 @@ class Renderer {
 			return '';
 		}
 
-		$caption = isset( $attributes['qrCaption'] ) ? Card_Data::text( $attributes['qrCaption'] ) : '';
+		/*
+		 * 2.4.0: fixed, translated caption. A qrCaption saved by an earlier
+		 * version is ignored. Filter lnyd_qr_caption changes it per card
+		 * (return '' to hide it).
+		 */
+		$caption = 'url' === $source
+			? __( 'Scan to open this page', 'lanyard' )
+			: __( 'Scan to add to contacts', 'lanyard' );
+		$caption = (string) apply_filters( 'lnyd_qr_caption', $caption, $source, $model );
 
 		// QR::svg() builds its markup only from escaped numbers, a validated
 		// colour and an esc_html() title; kses keeps that guarantee explicit.
@@ -606,8 +614,12 @@ class Renderer {
 			return '';
 		}
 
-		$label = isset( $attributes['vcardLabel'] ) ? Card_Data::text( $attributes['vcardLabel'] ) : '';
-		if ( '' === $label ) {
+		/*
+		 * 2.4.0: fixed, translated label. A vcardLabel saved by an earlier
+		 * version is ignored. Filter lnyd_vcard_label changes it per card.
+		 */
+		$label = (string) apply_filters( 'lnyd_vcard_label', __( 'Add to contacts', 'lanyard' ), $model );
+		if ( '' === trim( $label ) ) {
 			$label = __( 'Add to contacts', 'lanyard' );
 		}
 
